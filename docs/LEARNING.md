@@ -227,3 +227,23 @@
 1. Why does each chart have its own y axis instead of putting all three metrics in one chart?
 2. Where do the chart values come from, and why can they never disagree with the 3D callus?
 3. Why is B's implant stress higher than A's at week 0?
+
+## Day 4 · Ticket 2: chart cursor synced with the timeline, click to jump
+
+### What was built
+
+- A dark vertical cursor in all three charts at the current week; it moves with the slider, the keys and playback.
+- Clicking a chart jumps the whole app (3D, slider, other charts) to the week under the pointer.
+
+### Key concepts in plain language
+
+- **Two-way binding through the store.** The timeline writes `week`; the charts read it to draw the cursor. A chart click writes `week` too, and everything else follows. Nobody talks to anybody directly; they all talk to the store.
+- **useMemo.** The chart rows depend only on the chosen scenarios, so they are computed once per scenario change, not 60 times a second during playback.
+- **`activeLabel`.** Recharts tracks which data point is nearest the pointer; on click it reports that point's x value, which is our week.
+- **Focus for keyboard users only.** `:focus-visible` shows the focus outline when you tab to a chart, not when you click it.
+
+### Quiz
+
+1. Trace what happens, store field by store field, when you click week 15 on the consolidation chart.
+2. Why is `buildChartRows` wrapped in `useMemo`, and what are its dependencies?
+3. Why does the cursor appear at the same x position in all three charts?

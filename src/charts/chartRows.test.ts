@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { getScenario } from '../data/scenarios'
-import { METRICS, buildChartRows } from './chartRows'
+import { METRICS, buildChartRows, weekFromChartClick } from './chartRows'
 
 describe('chart rows', () => {
   const a = getScenario({ nailDiameterMm: 11, loading: 'partial' })
@@ -22,5 +22,17 @@ describe('chart rows', () => {
       ['植入物應力', 'MPa'],
       ['癒合程度', '%'],
     ])
+  })
+})
+
+describe('chart click', () => {
+  it('turns the clicked point into a week', () => {
+    expect(weekFromChartClick({ activeLabel: 8 })).toBe(8)
+    expect(weekFromChartClick({ activeLabel: '12' })).toBe(12)
+  })
+
+  it('ignores clicks outside the data', () => {
+    expect(weekFromChartClick({ activeLabel: undefined })).toBeNull()
+    expect(weekFromChartClick({})).toBeNull()
   })
 })

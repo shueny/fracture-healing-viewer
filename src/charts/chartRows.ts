@@ -26,3 +26,10 @@ export const METRICS: MetricInfo[] = [
   { metric: 'implantStressMpa', title: '植入物應力', unit: 'MPa', digits: 0 },
   { metric: 'consolidationPct', title: '癒合程度', unit: '%', digits: 0 },
 ]
+
+// Chart click -> week to jump to. Recharts reports the week under the
+// pointer (the nearest data point) as `activeLabel`; null if outside data.
+export function weekFromChartClick(state: { activeLabel?: string | number }): number | null {
+  const week = Number(state.activeLabel)
+  return state.activeLabel === undefined || Number.isNaN(week) ? null : week
+}

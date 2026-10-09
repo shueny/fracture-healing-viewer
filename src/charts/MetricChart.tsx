@@ -3,6 +3,7 @@ import {
   Legend,
   Line,
   LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -11,14 +12,21 @@ import {
 import { getScenario } from '../data/scenarios'
 import { SCENARIO_COLORS } from '../scene/scenarioColors'
 import { useViewerStore } from '../store/useViewerStore'
-import { buildChartRows, type MetricInfo } from './chartRows'
+import { useMemo } from 'react'
+import { buildChartRows, weekFromChartClick, type MetricInfo } from './chartRows'
 
 const AXIS = { stroke: '#94a3b8', fontSize: 11 } // recessive axes (slate-400)
 
 // One metric over weeks 0-20, a line per scenario (PRD F5).
 export function MetricChart({ info }: { info: MetricInfo }) {
   const scenarios = useViewerStore((s) => s.scenarios)
-  const rows = buildChartRows(getScenario(scenarios.A), getScenario(scenarios.B), info.metric)
+  const week = useViewerStore((s) => s.week)
+  const setWeek = useViewerStore((s) => s.setWeek)
+  // Rows only change with the scenarios, not with every playback frame.
+  const rows = useMemo(
+    () => buildChartRows(getScenario(scenarios.A), getScenario(scenarios.B), info.metric),
+    [scenarios, info.metric],
+  )
   const format = (v: number) => `${v.toFixed(info.digits)} ${info.unit}`
 
   return (
@@ -29,7 +37,16 @@ export function MetricChart({ info }: { info: MetricInfo }) {
       </figcaption>
       <div className="min-h-0 flex-1">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={rows} margin={{ top: 8, right: 16, bottom: 0, left: 0 }}>
+          <LineChart
+            data={rows}
+            margin={{ top: 8, right: 16, bottom: 0, left: 0 }}
+            // Click anywhere on the plot: jump the whole app to that week (PRD F5).
+            onClick={(state) => {
+              const clicked = weekFromChartClick(state)
+              if (clicked !== null) setWeek(clicked)
+            }}
+            className="cursor-pointer"
+          >
             <CartesianGrid stroke="#e2e8f0" vertical={false} />
             <XAxis
               dataKey="week"
@@ -51,6 +68,8 @@ export function MetricChart({ info }: { info: MetricInfo }) {
               formatter={(name) => <span className="text-xs text-slate-600">方案 {name}</span>}
               wrapperStyle={{ fontSize: 12 }}
             />
+            {/* Timeline cursor: same week as the slider and the 3D views. */}
+            <ReferenceLine x={week} stroke="#1e293b" strokeWidth={1.5} ifOverflow="hidden" />
             {(['A', 'B'] as const).map((slot) => (
               <Line
                 key={slot}
