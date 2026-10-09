@@ -20,12 +20,23 @@ The owner will be interviewed about every decision in this project. Code she can
 
 See the directory structure in the PRD (`src/scene`, `src/shaders`, `src/charts`, `src/ui`, `src/store`, `src/data`, `public/models`).
 
-| folder | what |
-|---|---|
-| `src/` | Vite + React + TypeScript app |
-| `public/models/` | processed glb models |
-| `docs/` | PRD, ADRs, LEARNING.md |
+| folder           | what                          |
+| ---------------- | ----------------------------- |
+| `src/`           | Vite + React + TypeScript app |
+| `public/models/` | processed glb models          |
+| `docs/`          | PRD, ADRs, LEARNING.md        |
 
 ## Commands
 
-To be filled in when the project is scaffolded (Day 1): install, dev server, lint, type check, test, build.
+Node 22.18+ and pnpm 10 (`corepack enable`).
+
+| command                       | what                                                           |
+| ----------------------------- | -------------------------------------------------------------- |
+| `pnpm install`                | install dependencies                                           |
+| `pnpm dev`                    | dev server                                                     |
+| `pnpm check`                  | **quality gate**: lint, format check, type check, tests, build |
+| `pnpm lint` / `pnpm format`   | ESLint / Prettier (write)                                      |
+| `pnpm typecheck`              | `tsc -b`                                                       |
+| `pnpm test`                   | Vitest                                                         |
+| `pnpm build` / `pnpm preview` | production build / serve it                                    |
+| `pnpm gen:placeholder-femur`  | regenerate `public/models/femur.glb` (placeholder, ADR 0005)   |
