@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { INITIAL_CAMERA, nextCameraPose } from './cameraPose'
+import { CALLUS } from '../scene/callusModel'
+import { CAMERA_FOV_DEG, INITIAL_CAMERA, framingDistance, nextCameraPose } from './cameraPose'
 import { useViewerStore } from './useViewerStore'
 
 describe('shared camera pose', () => {
@@ -29,5 +30,19 @@ describe('shared camera pose', () => {
       setCamera([100, 50, 600], [0, 10, 0])
       expect(useViewerStore.getState().camera.version).toBe(1)
     })
+  })
+})
+
+describe('initial framing', () => {
+  it('distance shows exactly the requested half height', () => {
+    const d = framingDistance(60)
+    expect(d * Math.tan(((CAMERA_FOV_DEG / 2) * Math.PI) / 180)).toBeCloseTo(60)
+  })
+
+  it('starts on the fracture line, close enough to see the whole callus large', () => {
+    expect(INITIAL_CAMERA.target).toEqual([0, 0, 0])
+    const halfHeight = INITIAL_CAMERA.position[2] * Math.tan(((CAMERA_FOV_DEG / 2) * Math.PI) / 180)
+    expect(halfHeight).toBeGreaterThan(CALLUS.halfLengthMm)
+    expect(halfHeight).toBeLessThan(100) // far less than the 400 mm femur
   })
 })

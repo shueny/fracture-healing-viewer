@@ -1,7 +1,7 @@
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useRef, type ComponentRef } from 'react'
-import { INITIAL_CAMERA, type Vec3 } from '../store/cameraPose'
+import { CAMERA_FOV_DEG, INITIAL_CAMERA, type Vec3 } from '../store/cameraPose'
 import { useViewerStore } from '../store/useViewerStore'
 
 // Camera + orbit controls for one view, kept in sync with the other view
@@ -33,7 +33,7 @@ export function SyncedControls({ domElement }: { domElement: HTMLElement }) {
       <PerspectiveCamera
         makeDefault
         position={INITIAL_CAMERA.position}
-        fov={35}
+        fov={CAMERA_FOV_DEG}
         near={1}
         far={5000}
       />

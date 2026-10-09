@@ -6,9 +6,9 @@ Browser-based 3D viewer comparing two fixation scenarios for the same femoral sh
 
 **Demo:** _URL added after the Vercel project is connected (see [docs/DEPLOY.md](docs/DEPLOY.md))._
 
-![Overview: two cross-section views, timeline and three metric charts](docs/screenshots/overview.png)
+![Default view at week 9: close-up of the fracture. Scenario A has mostly ossified; scenario B (delayed) still shows cartilage at the fracture line](docs/screenshots/overview.png)
 
-![Close-up at week 9: scenario A has mostly ossified, scenario B still shows cartilage at the fracture line](docs/screenshots/callus-closeup.png)
+![Zoomed out with the mouse wheel: the intramedullary nail with its four locking screws](docs/screenshots/whole-femur.png)
 
 ## What it does
 
