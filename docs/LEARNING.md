@@ -83,3 +83,31 @@
 1. Why does the nail use a scale of `[d, 1, d]` instead of `new CylinderGeometry(d / 2, ...)` when the diameter changes?
 2. What would the cut look like if bone and metal shared one stencil pass and one cap?
 3. Why are the locking screws visible along their full length in our section, and what would change with anterior-posterior screws?
+
+## Day 2 · Ticket 1: callus shader
+
+### What was built
+
+- `src/data/healingModel.ts`: the PRD formulas (IFM, consolidation, implant stress, delay threshold) with tests.
+- A callus around the fracture: a bulge outside the bone plus a ring filling the gap. It grows, ossifies from the ends toward the fracture line, and remodels at the end (ADR 0009).
+- GLSL shaders in `src/shaders/`: surface, stencil pass and cut-face cap, sharing `tissue.glsl`.
+
+### Key concepts in plain language
+
+- **Vertex shader vs fragment shader.** The vertex shader runs once per corner and decides _where_ it is; ours squeezes the full-size callus toward the bone for early weeks. The fragment shader runs once per pixel and decides _what colour_ it is; ours turns maturity into a tissue colour.
+- **Uniform.** A value sent from JavaScript to the shader that is the same for every vertex and pixel, here `uConsolidation`. Changing it costs almost nothing, which is why the callus never needs new geometry.
+- **Varying.** A value the vertex shader hands to the fragment shader, blended across the triangle. `vDistance` carries "how far from the fracture line" to each pixel.
+- **Lathe geometry.** Draw a 2D outline and spin it around an axis, like a potter's wheel.
+- **Why the stencil passes need the callus shader too.** The stencil counts the shape that is actually drawn. If it counted the full-size callus, the cap would be too big in early weeks.
+- **Signed volume test.** Adding up tiny tetrahedra from the origin to every triangle gives the volume. It is positive only if all faces point outward, which is a simple way to prove the mesh is closed and oriented correctly.
+
+### Why it was done this way
+
+- The PRD keeps tissue state out of the JSON and computes it from C(t) and distance, so the shader does it live.
+- The formulas exist in TypeScript too, so they can be unit-tested (shaders cannot run in Vitest), and the legend can reuse the colours.
+
+### Quiz
+
+1. Which number changes when the week changes, and why does that keep scenario switching under 100 ms?
+2. Why does the outer callus turn into bone before the fracture line, and in which week does the line become mature bone in the normal vs delayed scenario?
+3. Why does the cut-face cap divide `y` by the growth factor before computing the distance?

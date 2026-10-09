@@ -1,8 +1,7 @@
 // Intramedullary nail and locking screws (illustrative sizes, mm). The nail
 // sits on the shaft axis, centred on the fracture line (y = 0).
 
-export const NAIL_DIAMETERS_MM = [10, 11] as const
-export type NailDiameterMm = (typeof NAIL_DIAMETERS_MM)[number]
+export { NAIL_DIAMETERS_MM, type NailDiameterMm } from '../data/healingModel'
 
 export const NAIL = {
   lengthMm: 360,

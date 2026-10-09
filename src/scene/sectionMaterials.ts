@@ -21,6 +21,7 @@ import {
   Plane,
   ReplaceStencilOp,
   Vector3,
+  type Material,
   type Side,
 } from 'three'
 
@@ -34,7 +35,7 @@ export const SECTION_PLANE = new Plane(new Vector3(0, 0, -1), 0)
 // layer's cap only sees its own stencil counts. The cap resets the stencil to
 // 0, so the next layer starts clean. Where solids overlap (a screw through the
 // cortex) the later layer's cap is drawn on top.
-export const SECTION_LAYERS = { bone: 0, implant: 1 } as const
+export const SECTION_LAYERS = { bone: 0, callus: 1, implant: 2 } as const
 export type SectionLayer = (typeof SECTION_LAYERS)[keyof typeof SECTION_LAYERS]
 
 // Draw order inside one frame (lower first).
@@ -43,32 +44,40 @@ export function sectionRenderOrder(layer: SectionLayer) {
   return { stencil: base + 1, cap: base + 2, surface: base + 3 }
 }
 
-export function createStencilMaterial(side: Side, plane: Plane = SECTION_PLANE) {
+// Turns any material into a stencil-counting pass (no colour, no depth).
+// Used directly for custom shader materials such as the callus.
+export function makeStencilPass<M extends Material>(material: M, side: Side): M {
   const op = side === BackSide ? IncrementWrapStencilOp : DecrementWrapStencilOp
-  return new MeshBasicMaterial({
-    side,
-    clippingPlanes: [plane],
-    colorWrite: false, // stencil only, nothing visible
-    depthWrite: false,
-    depthTest: false, // count every face along the ray, even hidden ones
-    stencilWrite: true,
-    stencilFunc: AlwaysStencilFunc,
-    stencilFail: op,
-    stencilZFail: op,
-    stencilZPass: op,
-  })
+  material.side = side
+  material.colorWrite = false // stencil only, nothing visible
+  material.depthWrite = false
+  material.depthTest = false // count every face along the ray, even hidden ones
+  material.stencilWrite = true
+  material.stencilFunc = AlwaysStencilFunc
+  material.stencilFail = op
+  material.stencilZFail = op
+  material.stencilZPass = op
+  return material
+}
+
+export function createStencilMaterial(side: Side, plane: Plane = SECTION_PLANE) {
+  return makeStencilPass(new MeshBasicMaterial({ clippingPlanes: [plane] }), side)
+}
+
+// Turns any material into a cap: drawn only where the stencil count is
+// non-zero, and writes 0 back so the stencil is clean afterwards.
+export function makeCapPass<M extends Material>(material: M): M {
+  material.stencilWrite = true
+  material.stencilRef = 0
+  material.stencilFunc = NotEqualStencilFunc // only inside the solid
+  material.stencilFail = ReplaceStencilOp
+  material.stencilZFail = ReplaceStencilOp
+  material.stencilZPass = ReplaceStencilOp // write 0 back
+  return material
 }
 
 export function createCapMaterial(color: string) {
-  return new MeshBasicMaterial({
-    color,
-    stencilWrite: true,
-    stencilRef: 0,
-    stencilFunc: NotEqualStencilFunc, // only inside the solid
-    stencilFail: ReplaceStencilOp,
-    stencilZFail: ReplaceStencilOp,
-    stencilZPass: ReplaceStencilOp, // write 0 back: stencil is clean afterwards
-  })
+  return makeCapPass(new MeshBasicMaterial({ color }))
 }
 
 export const STENCIL_SIDES = [BackSide, FrontSide] as const

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { FEMUR_PLACEHOLDER } from '../../scripts/placeholderFemur.ts'
+import { FEMUR_PLACEHOLDER } from './femurPlaceholder'
 import { LOCKING_SCREW, NAIL, NAIL_DIAMETERS_MM, nailScale } from './nailDimensions'
 
 describe('nail', () => {
