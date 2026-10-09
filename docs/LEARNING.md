@@ -207,3 +207,23 @@
 1. When you click "完全負重" in view A, which store field changes, and which components re-render?
 2. Why does `setScenario` spread the old objects (`...s.scenarios`, `...s.scenarios[slot]`)?
 3. What work does the GPU _not_ have to do when you switch the nail diameter?
+
+## Day 4 · Ticket 1: three metric charts
+
+### What was built
+
+- Three line charts under the timeline: 碎片間移動 (mm), 植入物應力 (MPa), 癒合程度 (%), each with a blue A line and an orange B line, a legend and a hover tooltip (ADR 0015).
+- They read the same `scenarios.json` rows as the 3D views and follow the scenario controls.
+
+### Key concepts in plain language
+
+- **Data shape for charts.** Recharts wants one object per x value with a field per line: `{ week: 8, A: 78, B: 196 }`. `buildChartRows` turns two scenarios into that shape.
+- **One axis per chart.** Each metric has its own unit, so each gets its own chart instead of two y axes on one (a classic way to mislead).
+- **Colour carries identity, text stays neutral.** Lines are blue/orange; numbers in the tooltip stay dark grey and the name "方案 A" says which is which. That also helps colour-blind readers.
+- **Reading the charts.** B (10 mm + full) starts with more movement (1.28 vs 0.64 mm) and higher implant stress, and consolidates more slowly: the delayed-healing story of ADR 0001.
+
+### Quiz
+
+1. Why does each chart have its own y axis instead of putting all three metrics in one chart?
+2. Where do the chart values come from, and why can they never disagree with the 3D callus?
+3. Why is B's implant stress higher than A's at week 0?
