@@ -2,6 +2,7 @@ import { OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { FemurModel } from './scene/FemurModel'
+import { Nail } from './scene/Nail'
 
 // Scene units are millimetres; the femur is about 400 mm long on the Y axis.
 export default function App() {
@@ -18,6 +19,8 @@ export default function App() {
       <directionalLight position={[300, 400, 500]} intensity={1.6} />
       <Suspense fallback={null}>
         <FemurModel />
+        {/* Fixed at 10 mm until scenario controls arrive (Day 3). */}
+        <Nail diameterMm={10} />
       </Suspense>
       <OrbitControls makeDefault />
     </Canvas>

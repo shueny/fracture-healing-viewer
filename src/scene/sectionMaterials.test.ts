@@ -9,10 +9,11 @@ import {
 } from 'three'
 import { describe, expect, it } from 'vitest'
 import {
-  RENDER_ORDER,
+  SECTION_LAYERS,
   SECTION_PLANE,
   createCapMaterial,
   createStencilMaterial,
+  sectionRenderOrder,
 } from './sectionMaterials'
 
 describe('SECTION_PLANE', () => {
@@ -54,7 +55,14 @@ describe('stencil materials', () => {
   })
 
   it('draws stencil passes before the cap, and the cap before the surface', () => {
-    expect(RENDER_ORDER.stencil).toBeLessThan(RENDER_ORDER.cap)
-    expect(RENDER_ORDER.cap).toBeLessThan(RENDER_ORDER.surface)
+    const order = sectionRenderOrder(SECTION_LAYERS.bone)
+    expect(order.stencil).toBeLessThan(order.cap)
+    expect(order.cap).toBeLessThan(order.surface)
+  })
+
+  it('finishes the bone layer before the implant layer starts', () => {
+    const bone = sectionRenderOrder(SECTION_LAYERS.bone)
+    const implant = sectionRenderOrder(SECTION_LAYERS.implant)
+    expect(Math.max(...Object.values(bone))).toBeLessThan(Math.min(...Object.values(implant)))
   })
 })

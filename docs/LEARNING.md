@@ -56,3 +56,30 @@
 1. Why does the counter stay at 0 inside the medullary canal but not inside the cortical wall?
 2. Why do the stencil passes turn off depth testing?
 3. What would go wrong if the visible bone surface were drawn before the stencil passes?
+
+## Day 1 · Ticket 3: intramedullary nail and locking screws
+
+### What was built
+
+- A titanium-coloured nail on the shaft axis, 360 mm long, centred on the fracture. Its diameter (10 or 11 mm) comes from a prop.
+- Four medial-lateral locking screws (Ø 5 mm × 40 mm), two in each fragment.
+- Nail and screws are cut by the same coronal plane, with a grey metal cap (ADR 0008).
+- Section rendering now supports layers, so bone and metal each get their own cap colour.
+
+### Key concepts in plain language
+
+- **Scale instead of rebuild.** The nail is built once as a cylinder 1 mm wide. To make it 10 or 11 mm wide, we stretch it in X and Z. Changing a scale is one number on the GPU; building new geometry means new vertex buffers. That is why switching scenarios can stay under 100 ms.
+- **Layers in the stencil cap.** One stencil buffer can only answer "is this pixel inside _something_?", not "inside what?". So we finish the bone completely (stencil → cap → surface, which also resets the stencil to 0) before starting the metal. Draw order is controlled by `renderOrder`: bone uses 1–3, implants 11–13.
+- **Overlap.** A screw passes through the cortex. The bone cap paints those pixels first, then the metal layer paints its cap on top at the same depth, so metal wins.
+
+### Why it was done this way
+
+- Medial-lateral screws are the usual distal locking direction, and they lie in our coronal cut, so they are visible.
+- Cutting the implants keeps one honest cross-section. A whole nail would stick out of the cut face.
+- The sizes live in one constants file and tests check them against the bone: both nails fit the canal, the nail spans the gap, and every screw goes through the nail and both cortices.
+
+### Quiz
+
+1. Why does the nail use a scale of `[d, 1, d]` instead of `new CylinderGeometry(d / 2, ...)` when the diameter changes?
+2. What would the cut look like if bone and metal shared one stencil pass and one cap?
+3. Why are the locking screws visible along their full length in our section, and what would change with anterior-posterior screws?
