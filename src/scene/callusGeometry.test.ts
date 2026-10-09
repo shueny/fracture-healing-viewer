@@ -1,52 +1,45 @@
-import { Vector3, type BufferGeometry } from 'three'
 import { describe, expect, it } from 'vitest'
-import { FEMUR_PLACEHOLDER } from './femurPlaceholder'
-import { buildCallusGeometry, callusProfile } from './callusGeometry'
-import { CALLUS, GAP_CALLUS_INNER_RADIUS_MIN_MM } from './callusModel'
+import { FEMUR } from '../data/femur'
+import { openEdges, signedVolume } from '../test/meshChecks'
+import { buildCallusGeometry } from './callusGeometry'
+import { CALLUS } from './callusModel'
 
 const shape = {
-  boneRadius: FEMUR_PLACEHOLDER.outerRadiusMm,
-  canalRadius: FEMUR_PLACEHOLDER.canalRadiusMm,
-  gapHalf: FEMUR_PLACEHOLDER.fractureGapMm / 2,
+  rings: FEMUR.callus.rings,
+  canalRadius: FEMUR.canalRadiusMm,
+  gapHalf: FEMUR.fractureGapMm / 2,
 }
+const g = buildCallusGeometry(shape)
 
-// Divergence theorem: sum of signed tetrahedron volumes over all triangles.
-// Positive means every face points outward (needed for the stencil cap).
-function signedVolume(g: BufferGeometry) {
-  const pos = g.getAttribute('position')
-  const index = g.getIndex()!
-  const [a, b, c] = [new Vector3(), new Vector3(), new Vector3()]
-  let v = 0
-  for (let i = 0; i < index.count; i += 3) {
-    a.fromBufferAttribute(pos, index.getX(i))
-    b.fromBufferAttribute(pos, index.getX(i + 1))
-    c.fromBufferAttribute(pos, index.getX(i + 2))
-    v += a.dot(b.clone().cross(c)) / 6
-  }
-  return v
-}
-
-describe('callus geometry', () => {
-  it('outline is closed', () => {
-    const p = callusProfile(shape)
-    expect(p[0].equals(p[p.length - 1])).toBe(true)
+describe('callus geometry on the real femur', () => {
+  it('is closed and faces outward (needed for the section cap)', () => {
+    expect(openEdges(g)).toBe(0)
+    expect(signedVolume(g)).toBeGreaterThan(0)
   })
 
-  it('is a closed solid with outward faces and a plausible volume', () => {
-    const g = buildCallusGeometry(shape)
-    const v = signedVolume(g)
-    expect(v).toBeGreaterThan(0)
-    // Rough check against the bulge (parabola) plus the gap ring, in mm^3.
-    const rB = shape.boneRadius
-    const T = CALLUS.maxThicknessMm
-    const H = CALLUS.halfLengthMm
-    const bulge = Math.PI * ((4 / 3) * 2 * rB * T * H + (16 / 15) * T * T * H)
-    const ring = Math.PI * (rB ** 2 - shape.canalRadius ** 2) * 2 * shape.gapHalf
-    expect(v).toBeGreaterThan(0.95 * (bulge + ring))
-    expect(v).toBeLessThan(1.05 * (bulge + ring))
+  it('spans the callus length and leaves room for the nail in the gap', () => {
+    g.computeBoundingBox()
+    expect(g.boundingBox!.min.y).toBeCloseTo(-CALLUS.halfLengthMm)
+    expect(g.boundingBox!.max.y).toBeCloseTo(CALLUS.halfLengthMm)
+    expect(shape.canalRadius).toBeGreaterThan(11 / 2) // thickest nail
   })
 
-  it('leaves room for the thickest nail inside the gap callus', () => {
-    expect(shape.canalRadius).toBeGreaterThan(GAP_CALLUS_INNER_RADIUS_MIN_MM)
+  it('outer bulge vertices sit outside the bone; the rest sit on it or in the gap', () => {
+    const pos = g.getAttribute('position')
+    const base = g.getAttribute('aBase')
+    const ext = g.getAttribute('aExternal')
+    let bulge = 0
+    for (let i = 0; i < pos.count; i++) {
+      const dx = pos.getX(i) - base.getX(i)
+      const dz = pos.getZ(i) - base.getZ(i)
+      const r = Math.hypot(dx, dz)
+      if (ext.getX(i) === 1) {
+        bulge++
+        expect(r).toBeLessThanOrEqual(CALLUS.maxThicknessMm + 1e-3)
+      } else if (Math.abs(pos.getY(i)) > shape.gapHalf + 1e-3) {
+        expect(r).toBeLessThan(1e-3) // inner wall lies on the bone surface
+      }
+    }
+    expect(bulge).toBe(FEMUR.callus.rings.length * FEMUR.callus.radialSegments)
   })
 })

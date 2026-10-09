@@ -2,7 +2,6 @@
 // there); change both together.
 
 uniform float uConsolidation; // C(t) / 100
-uniform float uBoneRadius; // mm
 uniform float uHalfLength; // mm, callus reach from the fracture line
 uniform vec3 uTissueColors[4]; // fibrous, cartilage, woven, mature
 

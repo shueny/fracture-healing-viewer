@@ -1,16 +1,18 @@
 import { Suspense } from 'react'
+import { FEMUR } from '../data/femur'
 import type { ScenarioParams } from '../data/healingModel'
 import { getScenario, valueAt } from '../data/scenarios'
 import { useViewerStore } from '../store/useViewerStore'
 import { Callus } from './Callus'
+import type { CallusShape } from './callusGeometry'
 import { FemurModel } from './FemurModel'
-import { FEMUR_PLACEHOLDER } from './femurPlaceholder'
 import { Nail } from './Nail'
 
-const CALLUS_SHAPE = {
-  boneRadius: FEMUR_PLACEHOLDER.outerRadiusMm,
-  canalRadius: FEMUR_PLACEHOLDER.canalRadiusMm,
-  gapHalf: FEMUR_PLACEHOLDER.fractureGapMm / 2,
+// The callus hugs the real bone: measured cross-sections from femur.json.
+const CALLUS_SHAPE: CallusShape = {
+  rings: FEMUR.callus.rings,
+  canalRadius: FEMUR.canalRadiusMm,
+  gapHalf: FEMUR.fractureGapMm / 2,
 }
 
 // One fracture with one fixation scenario at the current week.

@@ -355,3 +355,26 @@
 1. Round 3 was green but wrong. What happened, and what does the harness now do to prevent it?
 2. Why does the F2 test set both views to the same scenario before comparing pixels?
 3. What does `pnpm harness:selftest` prove that `pnpm harness` alone cannot?
+
+## Real femur: BodyParts3D model, scripted pipeline, curved nail
+
+### What was built
+
+- The generated tubes are replaced by the **real BodyParts3D 4.0 right femur** (FMA24474), 467 mm long (ADR 0019).
+- `scripts/extractFemurFromHumanAtlas.ts` pulls the femur out of a CC BY 4.0 repack (the official site is blocked here). `scripts/buildFemur.ts` turns it into the app's model with manifold-3d.
+- The callus now hugs the real cross-section of the shaft; the nail and canal follow the forward bow of the femur; screw lengths match the bone width at each height.
+
+### Key concepts in plain language
+
+- **Welding.** The source file stores some corners twice. Merging corners at the same position joins the triangles into one closed skin; without it the mesh had 44 open edges.
+- **Boolean operations (CSG).** "Bone minus cylinder" bores the canal; "bone minus thin slab" cuts the fracture gap. manifold-3d guarantees the result is still a closed solid.
+- **Subdivision + smoothing.** Each triangle is split into 16 smaller ones placed on a smooth curved surface, so the 930-triangle source looks like bone instead of facets.
+- **Centre line.** Slice the bone every 5 mm, take each slice's centre of area, fit a smooth curve through them. The canal and nail follow this curve; a straight nail would poke out of a bowed femur.
+- **Measuring instead of guessing.** The script measures the shaft cross-section at 96 angles on 33 levels and saves it in `femur.json`; the callus and screws are built from those numbers.
+- **Licence.** CC BY 4.0 lets us change and share the model if we credit the source and say it was modified, which the footer and README do.
+
+### Quiz
+
+1. Why did the straight 360 mm canal fail on the real femur, and how does the pipeline know the curved one stays inside the bone?
+2. What does welding fix, and what would go wrong with the section cap without it?
+3. Why are both nail diameters built at load time instead of rebuilding the nail when the user switches?

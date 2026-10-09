@@ -7,8 +7,10 @@ describe('required page text', () => {
     expect(DISCLAIMER).toBe('示意模型，非醫療數據，不作臨床用途')
   })
 
-  it('does not credit BodyParts3D while the femur is the placeholder (ADR 0005)', () => {
-    expect(MODEL_CREDIT).not.toContain('BodyParts3D')
+  it('credits BodyParts3D, its licence, and says the model was modified (ADR 0019)', () => {
+    for (const part of ['BodyParts3D', 'Database Center for Life Science', 'CC BY 4.0', '修改']) {
+      expect(MODEL_CREDIT).toContain(part)
+    }
   })
 
   it('legend lists the four PRD tissue states in healing order', () => {

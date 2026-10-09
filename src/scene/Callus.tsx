@@ -31,7 +31,6 @@ export function Callus({ shape, consolidationPct }: CallusProps) {
     // One uniforms object shared by all passes: one update moves them all.
     const uniforms = {
       uConsolidation: { value: 0 },
-      uBoneRadius: { value: shape.boneRadius + CALLUS.boneOffsetMm },
       uHalfLength: { value: CALLUS.halfLengthMm },
       uTissueColors: { value: TISSUES.map((t) => new Color(t.color)) },
     }

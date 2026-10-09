@@ -13,11 +13,12 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build",
-    "gen:placeholder-femur": "node scripts/generatePlaceholderFemur.ts",
     "gen:scenarios": "node scripts/writeScenarios.ts",
     "e2e": "pnpm build && playwright test",
     "harness": "node scripts/harness.ts",
-    "harness:selftest": "node scripts/harnessSelftest.ts"
+    "harness:selftest": "node scripts/harnessSelftest.ts",
+    "extract:femur": "node scripts/extractFemurFromHumanAtlas.ts",
+    "build:femur": "node scripts/buildFemur.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -43,6 +44,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "manifold-3d": "^3.5.4",
     "prettier": "^3.9.9",
     "tailwindcss": "^4.3.3",
     "typescript": "~5.8.3",

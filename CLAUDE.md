@@ -13,7 +13,7 @@ The owner will be interviewed about every decision in this project. Code she can
 5. **No silent scope growth.** If you see a useful addition, propose it in your reply. Do not add it. Extension features in the PRD wait until the MVP is done.
 6. **Quality gate before declaring a task done:** `pnpm harness` is green (lint, type check, unit tests, build, Playwright e2e and audit). Use the `harness` skill to run, review, fix and repeat. Paste the command output in your reply. The exact commands are set when the project is scaffolded (Day 1) and must be listed in the "Commands" section below.
 7. **Illustrative data only.** All numbers come from the PRD formulas via `generateScenarios.ts`. Never present them as medical data. The disclaimer "示意模型，非醫療數據，不作臨床用途" must stay visible on the page.
-8. **License and credit.** The femur model is BodyParts3D (© The Database Center for Life Science, CC BY-SA 2.1 Japan). Keep the credit on the page footer and in the README. Commit only the processed `public/models/femur.glb`; keep raw sources (`*.obj`, `*.blend`) out of git.
+8. **License and credit.** The femur model is BodyParts3D 4.0 (© The Database Center for Life Science, CC BY 4.0 per the current official licence; ADR 0019). Keep the credit, with "modified", on the page footer and in the README. Commit only the processed `public/models/femur.glb` and `src/data/femur.json`; keep raw sources (`*.obj`, `*.blend`, `data/raw/`) out of git.
 9. **Performance budget.** Do not rebuild geometry on week or scenario changes; update shader uniforms only. Target about 60 fps on desktop Chrome, first load under 3 s, scenario switch under 100 ms.
 
 ## Repo layout
@@ -39,7 +39,8 @@ Node 22.18+ and pnpm 10 (`corepack enable`).
 | `pnpm typecheck`              | `tsc -b`                                                                   |
 | `pnpm test`                   | Vitest                                                                     |
 | `pnpm build` / `pnpm preview` | production build / serve it                                                |
-| `pnpm gen:placeholder-femur`  | regenerate `public/models/femur.glb` (placeholder, ADR 0005)               |
+| `pnpm extract:femur <dir>`    | extract FMA24474 from a human-atlas clone to `data/raw/` (ADR 0019)        |
+| `pnpm build:femur [obj]`      | rebuild `femur.glb` + `femur.json` from a BodyParts3D femur OBJ            |
 | `pnpm e2e`                    | build + Playwright tests (features F1-F7 + audit), ADR 0018                |
 | `pnpm harness`                | full harness: `pnpm check` steps + e2e, writes `harness-report/SUMMARY.md` |
 | `pnpm harness:selftest`       | plant known bugs and confirm the harness catches each one                  |
