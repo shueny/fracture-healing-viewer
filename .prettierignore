@@ -1,0 +1,5 @@
+dist
+pnpm-lock.yaml
+public/models
+# Owner-written spec; keep its diffs about content, not formatting
+docs/PRD.md
