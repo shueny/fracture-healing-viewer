@@ -2,7 +2,7 @@
 
 One entry per harness round (`pnpm harness`, see `.claude/skills/harness/SKILL.md`): what failed, the root cause, and the fix.
 
-## Round 1: RED (1 of 17 e2e tests)
+## Round 1: RED (1 of 14 e2e tests)
 
 - **Failed:** `F2 A/B views side by side with synced cameras`: left and right views not pixel-identical.
 - **Review:** saved both crops and diffed them. All differences sat in one column: x = 615, the last column of crop A, over its full height.
@@ -11,7 +11,7 @@ One entry per harness round (`pnpm harness`, see `.claude/skills/harness/SKILL.m
 
 ## Round 2: GREEN
 
-- All 17 e2e tests and the static gate passed.
+- All 14 e2e tests and the static gate passed.
 - **Self-review after green:** a probe with every axe rule found what the blocking checks did not: `region` (moderate), where the timeline sits outside any landmark, and 39 "incomplete" colour-contrast results that axe cannot measure (SVG chart text). Decision: make the harness catch both.
 
 ## Round 3: GREEN, but a false green
@@ -42,7 +42,7 @@ One entry per harness round (`pnpm harness`, see `.claude/skills/harness/SKILL.m
 
 ## Round 6: GREEN (new loop run)
 
-- Static gate and all 18 e2e tests passed, with the contrast checker now reading `oklch()` colours.
+- Static gate and all 15 e2e tests passed, with the contrast checker now reading `oklch()` colours.
 
 ## Self-test of the harness (`pnpm harness:selftest`)
 
