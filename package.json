@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "pnpm gen:scenarios && tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -13,7 +13,8 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build",
-    "gen:placeholder-femur": "node scripts/generatePlaceholderFemur.ts"
+    "gen:placeholder-femur": "node scripts/generatePlaceholderFemur.ts",
+    "gen:scenarios": "node scripts/writeScenarios.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",

@@ -137,3 +137,28 @@
 1. Why does playback multiply by elapsed seconds instead of adding a fixed amount per frame?
 2. Where does the "current week" live, and which parts of the app read it?
 3. What happens when you press play at week 20, and why?
+
+## Day 3 · Ticket 1: generateScenarios.ts and scenarios.json
+
+### What was built
+
+- `src/data/generateScenarios.ts` turns the PRD formulas into 4 scenarios × 21 weeks, in the PRD's JSON shape.
+- `scripts/writeScenarios.ts` writes `src/data/scenarios.json`; `pnpm build` runs it first.
+- `src/data/scenarios.ts` reads the JSON: `getScenario(params)` and `valueAt(scenario, metric, week)` with linear interpolation.
+- The callus now gets C(t) from the JSON (ADR 0012).
+
+### Key concepts in plain language
+
+- **Precompute vs compute live.** In a real product the heavy simulation runs on a server or offline and the browser only displays results. We copy that split: formulas run once at build time; the app reads numbers.
+- **Linear interpolation.** Between week 8 and 9 the value is a straight-line blend: at 8.5 it is halfway. This keeps playback smooth with only 21 stored points per scenario.
+- **Golden-file test.** A test regenerates the data and compares it to the committed file, so the file can never silently drift from the formulas.
+
+### Why it was done this way
+
+- One function builds the data; one function reads it. The 3D scene and the charts (Day 4) both use `valueAt`, so they can never disagree.
+
+### Quiz
+
+1. Why does the app read `scenarios.json` instead of calling the formulas directly?
+2. What is `valueAt(s, 'consolidationPct', 8.25)` in terms of the stored week 8 and week 9 values?
+3. What fails if someone changes a formula but forgets to regenerate the JSON?
