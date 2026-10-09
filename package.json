@@ -14,7 +14,10 @@
     "test": "vitest run",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build",
     "gen:placeholder-femur": "node scripts/generatePlaceholderFemur.ts",
-    "gen:scenarios": "node scripts/writeScenarios.ts"
+    "gen:scenarios": "node scripts/writeScenarios.ts",
+    "e2e": "pnpm build && playwright test",
+    "harness": "node scripts/harness.ts",
+    "harness:selftest": "node scripts/harnessSelftest.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -26,7 +29,9 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.25.0",
+    "@playwright/test": "1.56.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.20.5",
     "@types/react": "^19.1.2",

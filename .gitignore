@@ -27,3 +27,8 @@ dist-ssr
 *.obj
 *.blend
 *.blend1
+
+# Harness output (pnpm harness / pnpm e2e)
+harness-report/
+test-results/
+playwright-report/

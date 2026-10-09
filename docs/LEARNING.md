@@ -325,3 +325,33 @@
 1. How far is the camera from the fracture at start, and how is that number computed?
 2. What do you do to see the locking screws, and why do both views follow?
 3. If the field of view became 50°, would the callus still be framed the same? Why?
+
+## Harness: Playwright tests, self-review, fix loop and CI
+
+### What was built
+
+- Playwright end-to-end tests for every PRD feature (F1–F7) and a self-review audit: accessibility (axe), contrast including chart text, console errors, no scrolling at three screen sizes, named controls, and a download budget.
+- `pnpm harness`: runs everything and writes a failure summary; it also checks that every required test ran.
+- `pnpm harness:selftest`: plants known bugs to prove the tests catch them.
+- A Claude Code skill (`.claude/skills/harness`) that runs the loop run → review → fix → repeat, logged in `docs/HARNESS_LOG.md`.
+- CI runs the e2e tests on every PR (ADR 0018).
+
+### What the loop found and fixed (6 rounds)
+
+1. A test bug: the A/B pixel crop included a 1 px divider line.
+2. A false green: a test edit had not applied, so the harness now checks that required tests ran.
+3. Real accessibility problems: chart tick labels at 2.56:1 contrast (now 7.6:1), and the timeline outside any landmark.
+4. A checker bug: colours in `oklch()` were not read, so some text was skipped.
+
+### Key concepts in plain language
+
+- **End-to-end test.** A robot uses the real page (clicks, keys, scrolling) and checks what a person would see.
+- **Self-review.** Checks a reviewer would make without being asked: can everyone read it, does it break, does it fit.
+- **Mutation testing.** Break the code on purpose; a good test must fail. If it still passes, the test is blind.
+- **Root cause vs symptom.** "Pixels differ" is a symptom; "the crop includes the border" is the cause. Fix the cause, never just loosen the check.
+
+### Quiz
+
+1. Round 3 was green but wrong. What happened, and what does the harness now do to prevent it?
+2. Why does the F2 test set both views to the same scenario before comparing pixels?
+3. What does `pnpm harness:selftest` prove that `pnpm harness` alone cannot?

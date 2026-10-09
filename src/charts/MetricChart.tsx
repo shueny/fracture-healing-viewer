@@ -15,7 +15,10 @@ import { useViewerStore } from '../store/useViewerStore'
 import { useMemo } from 'react'
 import { buildChartRows, weekFromChartClick, type MetricInfo } from './chartRows'
 
-const AXIS = { stroke: '#94a3b8', fontSize: 11 } // recessive axes (slate-400)
+// Axis lines stay recessive (slate-400); tick labels are text and need
+// WCAG AA 4.5:1 on white, so they use slate-600 (7.6:1).
+const AXIS = { stroke: '#94a3b8' }
+const TICK = { fill: '#475569', fontSize: 11 }
 
 // One metric over weeks 0-20, a line per scenario (PRD F5).
 export function MetricChart({ info }: { info: MetricInfo }) {
@@ -53,10 +56,10 @@ export function MetricChart({ info }: { info: MetricInfo }) {
               type="number"
               domain={[0, 20]}
               ticks={[0, 4, 8, 12, 16, 20]}
-              tick={AXIS}
+              tick={TICK}
               stroke={AXIS.stroke}
             />
-            <YAxis width={40} tick={AXIS} stroke={AXIS.stroke} />
+            <YAxis width={40} tick={TICK} stroke={AXIS.stroke} />
             <Tooltip
               formatter={(value, name) => [format(Number(value)), `方案 ${name}`]}
               labelFormatter={(week) => `第 ${week} 週`}
