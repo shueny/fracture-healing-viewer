@@ -187,3 +187,23 @@
 1. Why is one canvas with two `View`s better than two canvases here?
 2. What would happen without the epsilon check in `nextCameraPose`?
 3. Why does `SyncedControls` read the store with `getState()` in `useFrame` instead of `useViewerStore((s) => s.camera)`?
+
+## Day 3 · Ticket 3: per-view scenario controls
+
+### What was built
+
+- Under each view's label: nail diameter (10 mm / 11 mm) and loading (部分負重 / 完全負重) toggle buttons, coloured with the view's scenario colour (ADR 0014).
+- The A/B scenario parameters moved into the store (`scenarios`, `setScenario`). The 3D views read them from there.
+
+### Key concepts in plain language
+
+- **Single source of truth, again.** The buttons write to the store; the 3D views (and the charts on Day 4) read from it. Nobody keeps a private copy, so nothing can get out of sync.
+- **Immutable update.** `setScenario` builds a new `scenarios` object instead of changing the old one. Zustand compares old and new by reference to know what changed, and React re-renders only what depends on it.
+- **Accessible toggles.** `role="radiogroup"` and `aria-checked` tell assistive technology "one of these is selected", just like radio buttons.
+- **Why switching is cheap.** A new diameter changes one scale; a new loading changes which JSON row feeds the callus uniform. No geometry is built and no shader is compiled.
+
+### Quiz
+
+1. When you click "完全負重" in view A, which store field changes, and which components re-render?
+2. Why does `setScenario` spread the old objects (`...s.scenarios`, `...s.scenarios[slot]`)?
+3. What work does the GPU _not_ have to do when you switch the nail diameter?
