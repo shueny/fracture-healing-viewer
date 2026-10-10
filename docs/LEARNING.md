@@ -111,3 +111,29 @@
 1. Which number changes when the week changes, and why does that keep scenario switching under 100 ms?
 2. Why does the outer callus turn into bone before the fracture line, and in which week does the line become mature bone in the normal vs delayed scenario?
 3. Why does the cut-face cap divide `y` by the growth factor before computing the distance?
+
+## Day 2 · Ticket 2: timeline with play / pause
+
+### What was built
+
+- A timeline bar: play/pause button, week slider (0–20) and "第 N 週 / 20" label. Space bar plays/pauses, left/right arrows move one week.
+- A Zustand store (`useViewerStore`) with the current week and play state, shared by the 3D scene now and the charts later.
+- Tailwind CSS for the UI (ADR 0010). The scene now shows the default scenario A (11 mm + partial) and follows the week (ADR 0011).
+
+### Key concepts in plain language
+
+- **Store.** One shared box of state outside the component tree. Any component can read from it (`useViewerStore((s) => s.week)`) and re-renders only when that value changes. This is how the 3D views and charts stay in sync without passing props everywhere.
+- **requestAnimationFrame.** The browser calls our function once before each screen refresh. We measure the real time since the last call and move the week forward by that much, so playback takes 10 s on a 60 Hz or a 144 Hz screen alike.
+- **Pure functions first.** The timeline rules (how far to move, where to step) are plain functions without React, so they are easy to test. The React hooks only wire them to the browser.
+- **Controlled input.** The slider shows `week` from the store and reports changes back. The store is the single source of truth.
+
+### Why it was done this way
+
+- Continuous playback makes the callus grow smoothly; whole-week steps for dragging and keys match how a clinician thinks ("week 8").
+- Dragging pauses playback so the user is never fighting the animation.
+
+### Quiz
+
+1. Why does playback multiply by elapsed seconds instead of adding a fixed amount per frame?
+2. Where does the "current week" live, and which parts of the app read it?
+3. What happens when you press play at week 20, and why?
