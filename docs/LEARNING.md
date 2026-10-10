@@ -247,3 +247,26 @@
 1. Trace what happens, store field by store field, when you click week 15 on the consolidation chart.
 2. Why is `buildChartRows` wrapped in `useMemo`, and what are its dependencies?
 3. Why does the cursor appear at the same x position in all three charts?
+
+## Day 5 · Ticket 1: legend, case panel, disclaimer and page layout
+
+### What was built
+
+- The PRD one-screen layout: header (title + disclaimer), left sidebar (case info + tissue legend), A/B views, timeline, charts, footer.
+- `Disclaimer`: "示意模型，非醫療數據，不作臨床用途" in the header, always visible (PRD F7), and again in the footer.
+- `CasePanel`: the fixed demo case read from `scenarios.json` (PRD F1).
+- `Legend`: the four tissue colours from the same constants the shader uses (PRD F6).
+- Footer credit says the femur is a generated placeholder. It must not credit BodyParts3D until the real model replaces it (ADR 0005).
+
+### Key concepts in plain language
+
+- **Flexbox layout for "fill the rest".** Header, timeline, charts and footer take their natural height; the 3D area is `flex-1` and gets whatever is left, so the page never scrolls.
+- **`min-h-0` / `min-w-0`.** By default a flex child refuses to shrink below its content. These let the 3D canvas and charts shrink to fit.
+- **One source for shared constants.** The legend and the shader read the same `TISSUES`; the disclaimer text lives in `copy.ts` and a test checks the exact wording.
+- **Semantic HTML.** `<header>`, `<main>`, `<aside>`, `<footer>`, `<dl>` for key/value pairs, `role="note"` for the disclaimer: screen readers and search engines understand the page structure.
+
+### Quiz
+
+1. Why does the 3D area use `flex-1 min-h-0`, and what happens without `min-h-0`?
+2. Where do the legend colours come from, and why not hard-code them in the legend?
+3. Why does the footer not mention BodyParts3D yet?
