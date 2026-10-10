@@ -4,15 +4,10 @@
 
 import { BufferGeometry, CylinderGeometry, RingGeometry } from 'three'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
+import { FEMUR_PLACEHOLDER } from '../src/scene/femurPlaceholder.ts'
 import type { GlbMesh } from './glb.ts'
 
-export const FEMUR_PLACEHOLDER = {
-  outerRadiusMm: 13.5, // ~27 mm shaft diameter
-  canalRadiusMm: 6.5, // 13 mm canal, room for the 10 / 11 mm nail
-  segmentLengthMm: 200,
-  fractureGapMm: 3,
-  radialSegments: 64,
-} as const
+export { FEMUR_PLACEHOLDER }
 
 export interface SegmentSpec {
   outerRadius: number
