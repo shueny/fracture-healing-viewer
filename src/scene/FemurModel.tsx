@@ -2,6 +2,7 @@ import { useGLTF } from '@react-three/drei'
 import { useMemo } from 'react'
 import { Mesh, type BufferGeometry, type Material } from 'three'
 import { SectionCap, SectionedMesh } from './Section'
+import { SECTION_LAYERS } from './sectionMaterials'
 
 // BASE_URL keeps the path right if the site is served from a sub-path.
 export const FEMUR_URL = `${import.meta.env.BASE_URL}models/femur.glb`
@@ -23,10 +24,15 @@ export function FemurModel() {
   return (
     <>
       {meshes.map((m) => (
-        <SectionedMesh key={m.uuid} geometry={m.geometry} material={m.material} />
+        <SectionedMesh
+          key={m.uuid}
+          geometry={m.geometry}
+          material={m.material}
+          layer={SECTION_LAYERS.bone}
+        />
       ))}
       {/* One cap covers both bone segments; sized to the whole model. */}
-      <SectionCap width={200} height={600} color={CAP_COLOR} />
+      <SectionCap width={200} height={600} color={CAP_COLOR} layer={SECTION_LAYERS.bone} />
     </>
   )
 }

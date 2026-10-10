@@ -29,8 +29,19 @@ import {
 // front half that faces the default camera.
 export const SECTION_PLANE = new Plane(new Vector3(0, 0, -1), 0)
 
+// Each material that needs its own cap colour (bone, metal) is a "layer".
+// Layers are drawn one after another, each as stencil -> cap -> surface, so a
+// layer's cap only sees its own stencil counts. The cap resets the stencil to
+// 0, so the next layer starts clean. Where solids overlap (a screw through the
+// cortex) the later layer's cap is drawn on top.
+export const SECTION_LAYERS = { bone: 0, implant: 1 } as const
+export type SectionLayer = (typeof SECTION_LAYERS)[keyof typeof SECTION_LAYERS]
+
 // Draw order inside one frame (lower first).
-export const RENDER_ORDER = { stencil: 1, cap: 2, surface: 3 } as const
+export function sectionRenderOrder(layer: SectionLayer) {
+  const base = layer * 10
+  return { stencil: base + 1, cap: base + 2, surface: base + 3 }
+}
 
 export function createStencilMaterial(side: Side, plane: Plane = SECTION_PLANE) {
   const op = side === BackSide ? IncrementWrapStencilOp : DecrementWrapStencilOp
