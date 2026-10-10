@@ -8,7 +8,7 @@ Browser-based 3D viewer comparing two fixation scenarios for the same femoral sh
 
 ![Default view at week 9: close-up of the fracture. Scenario A has mostly ossified; scenario B (delayed) still shows cartilage at the fracture line](docs/screenshots/overview.png)
 
-![Zoomed out with the mouse wheel: the intramedullary nail with its four locking screws](docs/screenshots/whole-femur.png)
+![Zoomed out: the real BodyParts3D femur cut in the coronal plane, with the nail along the bowed shaft](docs/screenshots/whole-femur.png)
 
 ## What it does
 
@@ -64,7 +64,7 @@ src/
   ui/        CasePanel, Timeline, ScenarioControls, Legend, Disclaimer, Footer
   store/     useViewerStore (Zustand), timeline and camera-pose logic
   data/      healingModel, generateScenarios, scenarios.json
-scripts/     placeholder femur GLB generator, scenarios.json writer
+scripts/     femur pipeline (extract, buildFemur with manifold-3d), scenarios.json writer, harness
 public/models/femur.glb
 docs/        PRD, ADRs, LEARNING, DEPLOY
 ```
@@ -72,5 +72,5 @@ docs/        PRD, ADRs, LEARNING, DEPLOY
 ## Data sources and licences
 
 - **Code:** MIT, see [LICENSE](LICENSE).
-- **Femur model:** currently a **generated placeholder** (two hollow tubes with a 3 mm gap; [ADR 0005](docs/adr/0005-placeholder-femur-model.md)). The planned replacement is the BodyParts3D right femur (FMA24474), © The Database Center for Life Science, licensed CC BY-SA 2.1 Japan; the modified GLB would be released under the same licence. The page and this README will credit it once it replaces the placeholder.
+- **Femur model:** BodyParts3D 4.0 right femur (FMA24474), © The Database Center for Life Science, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) ([BodyParts3D](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html)). Modified by [`scripts/buildFemur.ts`](scripts/buildFemur.ts): smoothed and subdivided, mid-shaft cut with a 3 mm gap, medullary canal bored along the bowed shaft ([ADR 0019](docs/adr/0019-real-femur-bodyparts3d.md)). The geometry was taken from the CC BY 4.0 repack in [ashemag/human-atlas](https://github.com/ashemag/human-atlas) because the official site was not reachable from the build environment; rerun the pipeline with the official `FMA24474.obj` to replace it.
 - This is an independent portfolio project and uses no company names or branding.

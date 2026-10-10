@@ -32,3 +32,6 @@ dist-ssr
 harness-report/
 test-results/
 playwright-report/
+
+# Raw anatomy sources (pnpm extract:femur)
+data/raw/
