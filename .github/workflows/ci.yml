@@ -1,5 +1,6 @@
-# Runs the quality gate (lint, format, type check, tests, build) on every PR
-# and on pushes to main.
+# Quality gate on every PR and push to main:
+# - check: lint, format, type check, unit tests, build
+# - e2e:   Playwright harness (features F1-F7 + self-review audit), ADR 0018
 name: CI
 
 on:
@@ -19,3 +20,23 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm e2e
+      - name: Upload harness report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: harness-report
+          path: harness-report/
+          retention-days: 14

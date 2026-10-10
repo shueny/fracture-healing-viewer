@@ -11,7 +11,10 @@ export function Timeline() {
   useTimelineKeys()
 
   return (
-    <div className="flex items-center gap-4 border-t border-slate-300 bg-white px-4 py-3">
+    <section
+      aria-label="時間軸"
+      className="flex items-center gap-4 border-t border-slate-300 bg-white px-4 py-3"
+    >
       <button
         type="button"
         onClick={togglePlay}
@@ -35,6 +38,6 @@ export function Timeline() {
       <span className="w-28 shrink-0 text-right tabular-nums text-slate-700">
         第 {displayWeek(week)} 週 / {MAX_WEEK}
       </span>
-    </div>
+    </section>
   )
 }
