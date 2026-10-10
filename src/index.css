@@ -6,3 +6,10 @@ body,
   height: 100%;
   margin: 0;
 }
+
+/* Charts are focusable (Recharts accessibility layer). Show the focus ring for
+   keyboard users only, not after a mouse click. */
+.recharts-surface:focus:not(:focus-visible),
+.recharts-wrapper:focus:not(:focus-visible) {
+  outline: none;
+}
