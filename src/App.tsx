@@ -1,3 +1,4 @@
+import { MetricCharts } from './charts/MetricCharts'
 import { ComparisonViews } from './scene/ComparisonViews'
 import { ScenarioControls } from './ui/ScenarioControls'
 import { Timeline } from './ui/Timeline'
@@ -9,6 +10,7 @@ export default function App() {
         <ComparisonViews overlay={(slot) => <ScenarioControls slot={slot} />} />
       </div>
       <Timeline />
+      <MetricCharts />
     </div>
   )
 }
