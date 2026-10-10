@@ -270,3 +270,23 @@
 1. Why does the 3D area use `flex-1 min-h-0`, and what happens without `min-h-0`?
 2. Where do the legend colours come from, and why not hard-code them in the legend?
 3. Why does the footer not mention BodyParts3D yet?
+
+## Day 5 · Ticket 2: deployment setup and CI
+
+### What was built
+
+- `vercel.json` and `docs/DEPLOY.md`: Vercel builds the site from GitHub (ADR 0016). The owner connects the repo once.
+- `.github/workflows/ci.yml`: GitHub Actions runs `pnpm check` on every PR and push to `main`.
+
+### Key concepts in plain language
+
+- **Static site.** `pnpm build` produces plain files (HTML, JS, CSS, the GLB). Any web server can host them; there is no backend.
+- **CI (continuous integration).** A fresh machine runs the same quality gate as you do locally, so a PR shows a green tick or a red cross before anyone merges.
+- **`--frozen-lockfile`.** Install exactly the versions in `pnpm-lock.yaml`; fail if `package.json` and the lockfile disagree. Builds are reproducible.
+- **Preview deployments.** Vercel builds every PR to its own URL, so reviewers can click instead of checking out code.
+
+### Quiz
+
+1. What does CI run, and what does a red cross on a PR tell you?
+2. Why does the install use `--frozen-lockfile`?
+3. Which Node version does the build need, and why?
