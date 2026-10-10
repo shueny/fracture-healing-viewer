@@ -290,3 +290,21 @@
 1. What does CI run, and what does a red cross on a PR tell you?
 2. Why does the install use `--frozen-lockfile`?
 3. Which Node version does the build need, and why?
+
+## Day 5 · Ticket 3: README and licence
+
+### What was built
+
+- `README.md`: what the viewer does, screenshots, the technical decision table with ADR links, the data model, how to run it, the folder layout, data sources and licences.
+- `LICENSE`: MIT for the code. The femur model will carry its own CC BY-SA 2.1 JP licence once the BodyParts3D model replaces the placeholder.
+
+### Key concepts in plain language
+
+- **Code licence vs asset licence.** MIT covers our code. A 3D model can have a different licence; CC BY-SA means "credit the source and share changes under the same licence".
+- **README as the 2-minute pitch.** The first readers are engineering leads with little time: screenshot first, then what it does, then why it was built this way.
+
+### Quiz
+
+1. Which licence applies to the code, and which would apply to a modified BodyParts3D femur?
+2. Name three technical decisions from the README table and the reason for each.
+3. Why does the README say the femur is a placeholder?
