@@ -28,3 +28,31 @@
 1. Why does the inner canal wall need its triangles reversed, and what would you see if they were not?
 2. What are the two chunks inside a GLB file, and why are they padded to 4 bytes?
 3. Which properties must the real Blender femur keep so it can replace the placeholder without code changes?
+
+## Day 1 · Ticket 2: section clipping and stencil cap
+
+### What was built
+
+- A fixed coronal clipping plane through the shaft axis that removes the front half of the bone (ADR 0007).
+- A solid "cap" on the cut face drawn with the stencil buffer, so the cortex reads as solid bone and the canal stays open (ADR 0006).
+- Reusable pieces: `SectionedMesh` (any closed mesh that should be cut) and `SectionCap` (the quad on the plane).
+
+### Key concepts in plain language
+
+- **Clipping plane.** A plane is a normal plus an offset. For every pixel, three.js computes `normal · position + constant`; negative means "cut away". Our normal points to -Z, so everything in front (z > 0) is removed.
+- **Why a cap is needed.** A 3D mesh is only a skin. Cut it and you look into an empty shell.
+- **Stencil buffer.** An extra per-pixel counter next to the colour and depth buffers. You can write to it without drawing colour, and later draw only where it has a certain value. It works like a stencil you paint through.
+- **The counting trick.** Shoot a ray from the eye through a pixel. Every time it crosses into the bone it passes a front face, every time it leaves it passes a back face. After clipping, a pixel where the ray starts _inside_ solid bone at the plane has one more back face than front face, so back (+1) and front (-1) do not cancel and the counter is non-zero. In the canal or outside the bone they cancel to 0. The cap draws only on non-zero pixels.
+- **Render order.** The GPU draws in sequence, so the stencil must be filled before the cap reads it: stencil → cap → visible surface.
+
+### Why it was done this way
+
+- The PRD chose clipping + stencil cap over transparency: transparency has sorting problems and hides the inside. A cross-section is the view surgeons know.
+- All three meshes per bone segment reuse the same geometry, so nothing is copied or rebuilt (performance rule 9).
+- The cap writes 0 back where it draws, so the stencil buffer is clean afterwards. That will matter when two views share one canvas on Day 3.
+
+### Quiz
+
+1. Why does the counter stay at 0 inside the medullary canal but not inside the cortical wall?
+2. Why do the stencil passes turn off depth testing?
+3. What would go wrong if the visible bone surface were drawn before the stencil passes?
