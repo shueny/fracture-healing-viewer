@@ -308,3 +308,20 @@
 1. Which licence applies to the code, and which would apply to a modified BodyParts3D femur?
 2. Name three technical decisions from the README table and the reason for each.
 3. Why does the README say the femur is a placeholder?
+
+## Follow-up: camera starts close on the fracture
+
+### What was built
+
+- The default camera is centred on the fracture line and frames ±60 mm, so the callus fills the view (ADR 0017). Zoom out with the wheel to see the nail and screws.
+- README screenshots updated: default close-up, and a zoomed-out view with the nail and screws.
+
+### Key concepts in plain language
+
+- **Framing with trigonometry.** A camera with a 35° vertical field of view sees `2 · distance · tan(17.5°)` of height at the target. Solving for distance gives where to put the camera to show a chosen height.
+
+### Quiz
+
+1. How far is the camera from the fracture at start, and how is that number computed?
+2. What do you do to see the locking screws, and why do both views follow?
+3. If the field of view became 50°, would the callus still be framed the same? Why?
