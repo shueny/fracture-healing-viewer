@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
-import { consolidationPct, type ScenarioParams } from '../data/healingModel'
+import type { ScenarioParams } from '../data/healingModel'
+import { getScenario, valueAt } from '../data/scenarios'
 import { useViewerStore } from '../store/useViewerStore'
 import { Callus } from './Callus'
 import { FemurModel } from './FemurModel'
@@ -15,10 +16,11 @@ const CALLUS_SHAPE = {
 // One fracture with one fixation scenario at the current week.
 export function FractureScene({ scenario }: { scenario: ScenarioParams }) {
   const week = useViewerStore((s) => s.week)
+  const consolidation = valueAt(getScenario(scenario), 'consolidationPct', week)
   return (
     <Suspense fallback={null}>
       <FemurModel />
-      <Callus shape={CALLUS_SHAPE} consolidationPct={consolidationPct(scenario, week)} />
+      <Callus shape={CALLUS_SHAPE} consolidationPct={consolidation} />
       <Nail diameterMm={scenario.nailDiameterMm} />
     </Suspense>
   )

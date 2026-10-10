@@ -1,0 +1,541 @@
+{
+  "case": {
+    "bone": "femur",
+    "fractureGapMm": 3,
+    "fixation": "intramedullary nail"
+  },
+  "scenarios": [
+    {
+      "id": "nail10-partial",
+      "nailDiameterMm": 10,
+      "loading": "partial",
+      "weeks": [
+        {
+          "week": 0,
+          "ifmMm": 0.8,
+          "implantStressMpa": 220,
+          "consolidationPct": 0
+        },
+        {
+          "week": 1,
+          "ifmMm": 0.623,
+          "implantStressMpa": 192.1,
+          "consolidationPct": 18.1
+        },
+        {
+          "week": 2,
+          "ifmMm": 0.485,
+          "implantStressMpa": 169.2,
+          "consolidationPct": 33
+        },
+        {
+          "week": 3,
+          "ifmMm": 0.378,
+          "implantStressMpa": 150.5,
+          "consolidationPct": 45.1
+        },
+        {
+          "week": 4,
+          "ifmMm": 0.294,
+          "implantStressMpa": 135.2,
+          "consolidationPct": 55.1
+        },
+        {
+          "week": 5,
+          "ifmMm": 0.229,
+          "implantStressMpa": 122.7,
+          "consolidationPct": 63.2
+        },
+        {
+          "week": 6,
+          "ifmMm": 0.179,
+          "implantStressMpa": 112.4,
+          "consolidationPct": 69.9
+        },
+        {
+          "week": 7,
+          "ifmMm": 0.139,
+          "implantStressMpa": 104,
+          "consolidationPct": 75.3
+        },
+        {
+          "week": 8,
+          "ifmMm": 0.108,
+          "implantStressMpa": 97.1,
+          "consolidationPct": 79.8
+        },
+        {
+          "week": 9,
+          "ifmMm": 0.084,
+          "implantStressMpa": 91.5,
+          "consolidationPct": 83.5
+        },
+        {
+          "week": 10,
+          "ifmMm": 0.066,
+          "implantStressMpa": 86.8,
+          "consolidationPct": 86.5
+        },
+        {
+          "week": 11,
+          "ifmMm": 0.051,
+          "implantStressMpa": 83.1,
+          "consolidationPct": 88.9
+        },
+        {
+          "week": 12,
+          "ifmMm": 0.04,
+          "implantStressMpa": 80,
+          "consolidationPct": 90.9
+        },
+        {
+          "week": 13,
+          "ifmMm": 0.031,
+          "implantStressMpa": 77.4,
+          "consolidationPct": 92.6
+        },
+        {
+          "week": 14,
+          "ifmMm": 0.024,
+          "implantStressMpa": 75.4,
+          "consolidationPct": 93.9
+        },
+        {
+          "week": 15,
+          "ifmMm": 0.019,
+          "implantStressMpa": 73.7,
+          "consolidationPct": 95
+        },
+        {
+          "week": 16,
+          "ifmMm": 0.015,
+          "implantStressMpa": 72.3,
+          "consolidationPct": 95.9
+        },
+        {
+          "week": 17,
+          "ifmMm": 0.011,
+          "implantStressMpa": 71.1,
+          "consolidationPct": 96.7
+        },
+        {
+          "week": 18,
+          "ifmMm": 0.009,
+          "implantStressMpa": 70.2,
+          "consolidationPct": 97.3
+        },
+        {
+          "week": 19,
+          "ifmMm": 0.007,
+          "implantStressMpa": 69.4,
+          "consolidationPct": 97.8
+        },
+        {
+          "week": 20,
+          "ifmMm": 0.005,
+          "implantStressMpa": 68.8,
+          "consolidationPct": 98.2
+        }
+      ]
+    },
+    {
+      "id": "nail10-full",
+      "nailDiameterMm": 10,
+      "loading": "full",
+      "weeks": [
+        {
+          "week": 0,
+          "ifmMm": 1.28,
+          "implantStressMpa": 352,
+          "consolidationPct": 0
+        },
+        {
+          "week": 1,
+          "ifmMm": 1.083,
+          "implantStressMpa": 323,
+          "consolidationPct": 11.8
+        },
+        {
+          "week": 2,
+          "ifmMm": 0.917,
+          "implantStressMpa": 297.5,
+          "consolidationPct": 22.1
+        },
+        {
+          "week": 3,
+          "ifmMm": 0.776,
+          "implantStressMpa": 274.9,
+          "consolidationPct": 31.3
+        },
+        {
+          "week": 4,
+          "ifmMm": 0.657,
+          "implantStressMpa": 255,
+          "consolidationPct": 39.3
+        },
+        {
+          "week": 5,
+          "ifmMm": 0.556,
+          "implantStressMpa": 237.5,
+          "consolidationPct": 46.5
+        },
+        {
+          "week": 6,
+          "ifmMm": 0.471,
+          "implantStressMpa": 222,
+          "consolidationPct": 52.8
+        },
+        {
+          "week": 7,
+          "ifmMm": 0.399,
+          "implantStressMpa": 208.3,
+          "consolidationPct": 58.3
+        },
+        {
+          "week": 8,
+          "ifmMm": 0.337,
+          "implantStressMpa": 196.2,
+          "consolidationPct": 63.2
+        },
+        {
+          "week": 9,
+          "ifmMm": 0.286,
+          "implantStressMpa": 185.6,
+          "consolidationPct": 67.5
+        },
+        {
+          "week": 10,
+          "ifmMm": 0.242,
+          "implantStressMpa": 176.2,
+          "consolidationPct": 71.3
+        },
+        {
+          "week": 11,
+          "ifmMm": 0.205,
+          "implantStressMpa": 167.9,
+          "consolidationPct": 74.7
+        },
+        {
+          "week": 12,
+          "ifmMm": 0.173,
+          "implantStressMpa": 160.6,
+          "consolidationPct": 77.7
+        },
+        {
+          "week": 13,
+          "ifmMm": 0.147,
+          "implantStressMpa": 154.1,
+          "consolidationPct": 80.3
+        },
+        {
+          "week": 14,
+          "ifmMm": 0.124,
+          "implantStressMpa": 148.4,
+          "consolidationPct": 82.6
+        },
+        {
+          "week": 15,
+          "ifmMm": 0.105,
+          "implantStressMpa": 143.4,
+          "consolidationPct": 84.7
+        },
+        {
+          "week": 16,
+          "ifmMm": 0.089,
+          "implantStressMpa": 138.9,
+          "consolidationPct": 86.5
+        },
+        {
+          "week": 17,
+          "ifmMm": 0.075,
+          "implantStressMpa": 135,
+          "consolidationPct": 88.1
+        },
+        {
+          "week": 18,
+          "ifmMm": 0.064,
+          "implantStressMpa": 131.6,
+          "consolidationPct": 89.5
+        },
+        {
+          "week": 19,
+          "ifmMm": 0.054,
+          "implantStressMpa": 128.5,
+          "consolidationPct": 90.7
+        },
+        {
+          "week": 20,
+          "ifmMm": 0.046,
+          "implantStressMpa": 125.8,
+          "consolidationPct": 91.8
+        }
+      ]
+    },
+    {
+      "id": "nail11-partial",
+      "nailDiameterMm": 11,
+      "loading": "partial",
+      "weeks": [
+        {
+          "week": 0,
+          "ifmMm": 0.64,
+          "implantStressMpa": 176,
+          "consolidationPct": 0
+        },
+        {
+          "week": 1,
+          "ifmMm": 0.498,
+          "implantStressMpa": 153.7,
+          "consolidationPct": 18.1
+        },
+        {
+          "week": 2,
+          "ifmMm": 0.388,
+          "implantStressMpa": 135.4,
+          "consolidationPct": 33
+        },
+        {
+          "week": 3,
+          "ifmMm": 0.302,
+          "implantStressMpa": 120.4,
+          "consolidationPct": 45.1
+        },
+        {
+          "week": 4,
+          "ifmMm": 0.235,
+          "implantStressMpa": 108.2,
+          "consolidationPct": 55.1
+        },
+        {
+          "week": 5,
+          "ifmMm": 0.183,
+          "implantStressMpa": 98.1,
+          "consolidationPct": 63.2
+        },
+        {
+          "week": 6,
+          "ifmMm": 0.143,
+          "implantStressMpa": 89.9,
+          "consolidationPct": 69.9
+        },
+        {
+          "week": 7,
+          "ifmMm": 0.111,
+          "implantStressMpa": 83.2,
+          "consolidationPct": 75.3
+        },
+        {
+          "week": 8,
+          "ifmMm": 0.087,
+          "implantStressMpa": 77.7,
+          "consolidationPct": 79.8
+        },
+        {
+          "week": 9,
+          "ifmMm": 0.067,
+          "implantStressMpa": 73.2,
+          "consolidationPct": 83.5
+        },
+        {
+          "week": 10,
+          "ifmMm": 0.053,
+          "implantStressMpa": 69.5,
+          "consolidationPct": 86.5
+        },
+        {
+          "week": 11,
+          "ifmMm": 0.041,
+          "implantStressMpa": 66.5,
+          "consolidationPct": 88.9
+        },
+        {
+          "week": 12,
+          "ifmMm": 0.032,
+          "implantStressMpa": 64,
+          "consolidationPct": 90.9
+        },
+        {
+          "week": 13,
+          "ifmMm": 0.025,
+          "implantStressMpa": 62,
+          "consolidationPct": 92.6
+        },
+        {
+          "week": 14,
+          "ifmMm": 0.019,
+          "implantStressMpa": 60.3,
+          "consolidationPct": 93.9
+        },
+        {
+          "week": 15,
+          "ifmMm": 0.015,
+          "implantStressMpa": 58.9,
+          "consolidationPct": 95
+        },
+        {
+          "week": 16,
+          "ifmMm": 0.012,
+          "implantStressMpa": 57.8,
+          "consolidationPct": 95.9
+        },
+        {
+          "week": 17,
+          "ifmMm": 0.009,
+          "implantStressMpa": 56.9,
+          "consolidationPct": 96.7
+        },
+        {
+          "week": 18,
+          "ifmMm": 0.007,
+          "implantStressMpa": 56.2,
+          "consolidationPct": 97.3
+        },
+        {
+          "week": 19,
+          "ifmMm": 0.006,
+          "implantStressMpa": 55.6,
+          "consolidationPct": 97.8
+        },
+        {
+          "week": 20,
+          "ifmMm": 0.004,
+          "implantStressMpa": 55.1,
+          "consolidationPct": 98.2
+        }
+      ]
+    },
+    {
+      "id": "nail11-full",
+      "nailDiameterMm": 11,
+      "loading": "full",
+      "weeks": [
+        {
+          "week": 0,
+          "ifmMm": 1.024,
+          "implantStressMpa": 281.6,
+          "consolidationPct": 0
+        },
+        {
+          "week": 1,
+          "ifmMm": 0.797,
+          "implantStressMpa": 245.9,
+          "consolidationPct": 18.1
+        },
+        {
+          "week": 2,
+          "ifmMm": 0.621,
+          "implantStressMpa": 216.6,
+          "consolidationPct": 33
+        },
+        {
+          "week": 3,
+          "ifmMm": 0.484,
+          "implantStressMpa": 192.7,
+          "consolidationPct": 45.1
+        },
+        {
+          "week": 4,
+          "ifmMm": 0.377,
+          "implantStressMpa": 173.1,
+          "consolidationPct": 55.1
+        },
+        {
+          "week": 5,
+          "ifmMm": 0.293,
+          "implantStressMpa": 157,
+          "consolidationPct": 63.2
+        },
+        {
+          "week": 6,
+          "ifmMm": 0.228,
+          "implantStressMpa": 143.9,
+          "consolidationPct": 69.9
+        },
+        {
+          "week": 7,
+          "ifmMm": 0.178,
+          "implantStressMpa": 133.1,
+          "consolidationPct": 75.3
+        },
+        {
+          "week": 8,
+          "ifmMm": 0.139,
+          "implantStressMpa": 124.3,
+          "consolidationPct": 79.8
+        },
+        {
+          "week": 9,
+          "ifmMm": 0.108,
+          "implantStressMpa": 117.1,
+          "consolidationPct": 83.5
+        },
+        {
+          "week": 10,
+          "ifmMm": 0.084,
+          "implantStressMpa": 111.2,
+          "consolidationPct": 86.5
+        },
+        {
+          "week": 11,
+          "ifmMm": 0.065,
+          "implantStressMpa": 106.3,
+          "consolidationPct": 88.9
+        },
+        {
+          "week": 12,
+          "ifmMm": 0.051,
+          "implantStressMpa": 102.4,
+          "consolidationPct": 90.9
+        },
+        {
+          "week": 13,
+          "ifmMm": 0.04,
+          "implantStressMpa": 99.1,
+          "consolidationPct": 92.6
+        },
+        {
+          "week": 14,
+          "ifmMm": 0.031,
+          "implantStressMpa": 96.5,
+          "consolidationPct": 93.9
+        },
+        {
+          "week": 15,
+          "ifmMm": 0.024,
+          "implantStressMpa": 94.3,
+          "consolidationPct": 95
+        },
+        {
+          "week": 16,
+          "ifmMm": 0.019,
+          "implantStressMpa": 92.5,
+          "consolidationPct": 95.9
+        },
+        {
+          "week": 17,
+          "ifmMm": 0.015,
+          "implantStressMpa": 91.1,
+          "consolidationPct": 96.7
+        },
+        {
+          "week": 18,
+          "ifmMm": 0.011,
+          "implantStressMpa": 89.9,
+          "consolidationPct": 97.3
+        },
+        {
+          "week": 19,
+          "ifmMm": 0.009,
+          "implantStressMpa": 88.9,
+          "consolidationPct": 97.8
+        },
+        {
+          "week": 20,
+          "ifmMm": 0.007,
+          "implantStressMpa": 88.1,
+          "consolidationPct": 98.2
+        }
+      ]
+    }
+  ]
+}
