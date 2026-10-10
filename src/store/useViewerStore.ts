@@ -1,7 +1,8 @@
 import { create } from 'zustand'
+import { INITIAL_CAMERA, nextCameraPose, type CameraPose, type Vec3 } from './cameraPose'
 import { MAX_WEEK, advanceWeek, clampWeek, stepWeek } from './timeline'
 
-// Shared app state (PRD: Zustand). Day 3 adds the A/B scenario parameters.
+// Shared app state (PRD: Zustand): week, playback and the shared camera.
 export interface ViewerState {
   week: number // 0..20, fractional while playing
   playing: boolean
@@ -9,6 +10,8 @@ export interface ViewerState {
   step: (direction: 1 | -1) => void
   togglePlay: () => void
   tick: (dtSeconds: number) => void // called every animation frame while playing
+  camera: CameraPose // shared by view A and B
+  setCamera: (position: Vec3, target: Vec3) => void
 }
 
 export const useViewerStore = create<ViewerState>()((set, get) => ({
@@ -26,5 +29,10 @@ export const useViewerStore = create<ViewerState>()((set, get) => ({
   tick: (dt) => {
     const week = advanceWeek(get().week, dt)
     set({ week, playing: week < MAX_WEEK })
+  },
+  camera: INITIAL_CAMERA,
+  setCamera: (position, target) => {
+    const camera = nextCameraPose(get().camera, position, target)
+    if (camera !== get().camera) set({ camera })
   },
 }))

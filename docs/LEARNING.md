@@ -162,3 +162,28 @@
 1. Why does the app read `scenarios.json` instead of calling the formulas directly?
 2. What is `valueAt(s, 'consolidationPct', 8.25)` in terms of the stored week 8 and week 9 values?
 3. What fails if someone changes a formula but forgets to regenerate the JSON?
+
+## Day 3 · Ticket 2: A/B views with synced cameras
+
+### What was built
+
+- Two side-by-side 3D views, "方案 A" (blue) and "方案 B" (orange), both drawn by one canvas with drei `View`.
+- Defaults (owner): A = 11 mm + partial loading, B = 10 mm + full loading (the delayed case).
+- Rotating, panning or zooming in either view moves both the same way (ADR 0013).
+
+### Key concepts in plain language
+
+- **One canvas, two views.** A browser allows only a limited number of WebGL contexts, and each would load its own copy of the model. With `View`, one canvas covers the page; for each view it sets a _scissor_ rectangle (only this area may be drawn) and renders that view's scene there.
+- **Scissor test.** Like masking tape on a wall: paint anywhere, only the untaped area changes.
+- **Shared camera pose.** The store keeps "where the camera is and what it looks at". The view you drag writes it; every frame both views read it. A version number tells a view "this is newer than what you have".
+- **Avoiding echo.** When B copies A's pose, B's controls report "I moved". Without a check, B would write the pose back, A would copy it again, and so on forever. The store ignores updates that do not really change the pose.
+
+### Why it was done this way
+
+- The PRD asks for one canvas and shared camera parameters in the store; per-view controls let each panel own its mouse area.
+
+### Quiz
+
+1. Why is one canvas with two `View`s better than two canvases here?
+2. What would happen without the epsilon check in `nextCameraPose`?
+3. Why does `SyncedControls` read the store with `getState()` in `useFrame` instead of `useViewerStore((s) => s.camera)`?
